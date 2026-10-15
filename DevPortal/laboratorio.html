@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meu Laboratório Python - DevPortal</title>
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Motor de Execução Python local no navegador (Sem Trinket ou sites externos) -->
+  <script src="https://cdn.jsdelivr.net/npm/skulpt@1.2.0/dist/skulpt.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/skulpt@1.2.0/dist/skulpt-stdlib.js"></script>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg-dark: #0a0c14;
+      --panel-bg: #111422;
+      --editor-bg: #07090e;
+      --terminal-bg: #030407;
+      --border-color: rgba(255, 255, 255, 0.08);
+      --accent-green: #10b981;
+      --accent-cyan: #38bdf8;
+      --accent-purple: #c084fc;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* Barra Superior */
+    .lab-topbar {
+      height: 60px;
+      background: var(--panel-bg);
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      flex-shrink: 0;
+      z-index: 10;
+    }
+
+    .left-tools {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.88rem;
+      font-weight: 500;
+      padding: 7px 14px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-color);
+      transition: all 0.2s;
+    }
+
+    .back-btn:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .lab-title-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .lab-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .lab-badge {
+      font-size: 0.72rem;
+      background: rgba(56, 189, 248, 0.15);
+      color: var(--accent-cyan);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .right-tools {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .select-examples {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-color);
+      color: #f1f5f9;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-family: inherit;
+      outline: none;
+      cursor: pointer;
+    }
+
+    .select-examples option {
+      background: #111422;
+      color: #fff;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      font-family: inherit;
+      transition: all 0.2s ease;
+    }
+
+    .btn-run {
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: #fff;
+      box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35);
+    }
+
+    .btn-run:hover {
+      filter: brightness(1.15);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 18px rgba(16, 185, 129, 0.5);
+    }
+
+    .btn-clear {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-muted);
+      border: 1px solid var(--border-color);
+    }
+
+    .btn-clear:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+    }
+
+    /* Layout da Área de Trabalho (Editor à esquerda, Terminal à direita) */
+    .lab-workspace {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      height: calc(100vh - 60px);
+      overflow: hidden;
+    }
+
+    /* Painel do Editor */
+    .editor-pane {
+      background: var(--editor-bg);
+      border-right: 1px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .pane-header {
+      height: 40px;
+      background: rgba(255, 255, 255, 0.02);
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    .pane-title {
+      font-family: 'Fira Code', monospace;
+      color: var(--accent-cyan);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 500;
+    }
+
+    .shortcut-badge {
+      font-size: 0.72rem;
+      color: #64748b;
+    }
+
+    .editor-wrapper {
+      flex: 1;
+      display: flex;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .line-numbers {
+      width: 48px;
+      padding: 16px 8px;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.9rem;
+      color: #475569;
+      text-align: right;
+      line-height: 1.6;
+      background: rgba(0, 0, 0, 0.25);
+      border-right: 1px solid rgba(255, 255, 255, 0.04);
+      user-select: none;
+      overflow: hidden;
+    }
+
+    #code-editor {
+      flex: 1;
+      background: transparent;
+      color: #f1f5f9;
+      border: none;
+      outline: none;
+      padding: 16px;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.92rem;
+      line-height: 1.6;
+      resize: none;
+      white-space: pre;
+      overflow-wrap: normal;
+      overflow: auto;
+      tab-size: 4;
+    }
+
+    /* Painel do Terminal */
+    .terminal-pane {
+      background: var(--terminal-bg);
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .terminal-title {
+      color: var(--accent-green);
+      font-family: 'Fira Code', monospace;
+      font-weight: 600;
+    }
+
+    .status-indicator {
+      font-size: 0.75rem;
+      padding: 3px 8px;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-muted);
+    }
+
+    .status-indicator.running {
+      color: #fbbf24;
+      background: rgba(251, 191, 36, 0.15);
+    }
+
+    .status-indicator.success {
+      color: #34d399;
+      background: rgba(52, 211, 153, 0.15);
+    }
+
+    .status-indicator.error {
+      color: #f87171;
+      background: rgba(239, 68, 68, 0.15);
+    }
+
+    #terminal-output {
+      flex: 1;
+      padding: 20px;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.88rem;
+      line-height: 1.65;
+      color: #38bdf8;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+
+    /* Responsividade */
+    @media (max-width: 800px) {
+      .lab-workspace {
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr 1fr;
+      }
+
+      .editor-pane {
+        border-right: none;
+        border-bottom: 1px solid var(--border-color);
+      }
+
+      .lab-title span {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Topo -->
+  <header class="lab-topbar">
+    <div class="left-tools">
+      <a href="index.html" class="back-btn" title="Voltar à tela inicial">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+        <span>Voltar ao Início</span>
+      </a>
+
+      <div class="lab-title-group">
+        <img src="logo.svg" alt="DevPortal Logo" style="width: 32px; height: 32px; filter: drop-shadow(0 0 8px rgba(56, 189, 248, 0.45));">
+        <h1 class="lab-title">
+          <span>Laboratório Python</span>
+        </h1>
+        <span class="lab-badge">DevPortal</span>
+      </div>
+    </div>
+
+    <!-- Controles -->
+    <div class="right-tools">
+      <select id="example-select" class="select-examples" title="Carregar código de exemplo">
+        <option value="hello">1. Olá Mundo &amp; Variáveis</option>
+        <option value="tabuada">2. Tabuada Automática</option>
+        <option value="fibo">3. Sequência de Fibonacci</option>
+        <option value="lista">4. Listas e Condições</option>
+        <option value="calc">5. Calculadora Simples</option>
+      </select>
+
+      <button id="btn-clear" class="btn btn-clear" title="Limpar editor">
+        Limpar
+      </button>
+
+      <button id="btn-run" class="btn btn-run" title="Executar código (Ctrl + Enter)">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+          <polygon points="5 3 19 12 5 21 5 3"></polygon>
+        </svg>
+        <span>Executar (Ctrl+Enter)</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Área de Trabalho Dividida -->
+  <main class="lab-workspace">
+    <!-- Editor de Código -->
+    <section class="editor-pane">
+      <div class="pane-header">
+        <span class="pane-title">script.py</span>
+        <span class="shortcut-badge">Dica: use Tab para indentar</span>
+      </div>
+
+      <div class="editor-wrapper">
+        <div id="line-numbers" class="line-numbers">1</div>
+        <textarea id="code-editor" spellcheck="false" placeholder="# Escreva seu código Python aqui..."># 🧪 Bem-vindo ao SEU próprio Laboratório Python!
+# Digite seu código aqui e clique no botão verde 'Executar' (ou use Ctrl + Enter)
+
+nome = "Programador"
+print(f"Olá, {nome}! Seu laboratório próprio está funcionando 100%!")
+
+print("\n--- Testando cálculo com laço for ---")
+for i in range(1, 6):
+    quadrado = i ** 2
+    print(f"Número {i} ao quadrado é: {quadrado}")
+
+print("\n🚀 Pronto para você programar o que quiser!")
+</textarea>
+      </div>
+    </section>
+
+    <!-- Terminal de Saída -->
+    <section class="terminal-pane">
+      <div class="pane-header">
+        <span class="terminal-title">terminal &gt;_ saída</span>
+        <span id="run-status" class="status-indicator">Pronto</span>
+      </div>
+
+      <pre id="terminal-output">Aguardando execução... Clique em 'Executar' ou pressione Ctrl+Enter no editor.</pre>
+    </section>
+  </main>
+
+  <!-- Script do Interpretador Próprio (Skulpt) -->
+  <script>
+    const codeEditor = document.getElementById('code-editor');
+    const lineNumbers = document.getElementById('line-numbers');
+    const terminalOutput = document.getElementById('terminal-output');
+    const runStatus = document.getElementById('run-status');
+    const btnRun = document.getElementById('btn-run');
+    const btnClear = document.getElementById('btn-clear');
+    const exampleSelect = document.getElementById('example-select');
+
+    // Códigos de exemplo
+    const examples = {
+      hello: `# 1. Olá Mundo e Variáveis\nnome = "Programador"\nprint(f"Olá, {nome}! Seu laboratório próprio está funcionando 100%!")\n\nprint("\\n--- Testando cálculo com laço for ---")\nfor i in range(1, 6):\n    quadrado = i ** 2\n    print(f"Número {i} ao quadrado é: {quadrado}")\n\nprint("\\n🚀 Pronto para você programar o que quiser!")`,
+
+      tabuada: `# 2. Tabuada Automática\nnumero = 7\nprint(f"=== TABUADA DO {numero} ===")\nfor i in range(1, 11):\n    resultado = numero * i\n    print(f"{numero} x {i:2d} = {resultado:2d}")`,
+
+      fibo: `# 3. Sequência de Fibonacci\ndef fibonacci(n):\n    seq = [0, 1]\n    while len(seq) < n:\n        seq.append(seq[-1] + seq[-2])\n    return seq\n\ntermos = 10\nprint(f"Os primeiros {termos} números de Fibonacci:")\nprint(fibonacci(termos))`,
+
+      lista: `# 4. Listas e Condições\nnotas = [7.5, 4.0, 9.2, 5.8, 8.0]\nprint(f"Notas da turma: {notas}")\n\naprovados = [n for n in notas if n >= 7.0]\nprint(f"Notas aprovadas (>= 7.0): {aprovados}")\nprint(f"Média da turma: {sum(notas) / len(notas):.2f}")`,
+
+      calc: `# 5. Calculadora Simples\ndef calcular(a, b, op):\n    if op == '+': return a + b\n    elif op == '-': return a - b\n    elif op == '*': return a * b\n    elif op == '/': return a / b if b != 0 else "Erro: Divisão por zero"\n    return "Operação inválida"\n\nprint("Testes da Calculadora:")\nprint("15 + 25 =", calcular(15, 25, '+'))\nprint("50 - 18 =", calcular(50, 18, '-'))\nprint("8 * 7   =", calcular(8, 7, '*'))\nprint("100 / 4 =", calcular(100, 4, '/'))`
+    };
+
+    // Atualiza numeração das linhas
+    function updateLines() {
+      const totalLines = codeEditor.value.split('\n').length;
+      let html = '';
+      for (let i = 1; i <= totalLines; i++) {
+        html += i + '<br>';
+      }
+      lineNumbers.innerHTML = html;
+    }
+
+    codeEditor.addEventListener('input', updateLines);
+    codeEditor.addEventListener('scroll', () => {
+      lineNumbers.scrollTop = codeEditor.scrollTop;
+    });
+
+    // Tecla TAB para indentar e Ctrl+Enter para executar
+    codeEditor.addEventListener('keydown', (e) => {
+      if (e.key === 'Tab') {
+        e.preventDefault();
+        const start = codeEditor.selectionStart;
+        const end = codeEditor.selectionEnd;
+        codeEditor.value = codeEditor.value.substring(0, start) + "    " + codeEditor.value.substring(end);
+        codeEditor.selectionStart = codeEditor.selectionEnd = start + 4;
+        updateLines();
+      }
+
+      if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+        e.preventDefault();
+        runPython();
+      }
+    });
+
+    // Função de Execução do Python
+    function runPython() {
+      const code = codeEditor.value;
+      terminalOutput.textContent = "";
+
+      if (typeof Sk === 'undefined') {
+        terminalOutput.textContent = "❌ [Erro]: O interpretador não carregou. Verifique sua conexão à internet.";
+        runStatus.textContent = "Erro";
+        runStatus.className = "status-indicator error";
+        return;
+      }
+
+      runStatus.textContent = "Executando...";
+      runStatus.className = "status-indicator running";
+
+      function outf(text) {
+        terminalOutput.textContent += text;
+      }
+
+      function builtinRead(x) {
+        if (Sk.builtinFiles === undefined || Sk.builtinFiles["files"][x] === undefined) {
+          throw "Arquivo não encontrado: '" + x + "'";
+        }
+        return Sk.builtinFiles["files"][x];
+      }
+
+      Sk.configure({
+        output: outf,
+        read: builtinRead
+      });
+
+      Sk.misceval.asyncToPromise(function() {
+        return Sk.importMainWithBody("<stdin>", false, code, true);
+      }).then(function() {
+        runStatus.textContent = "Sucesso";
+        runStatus.className = "status-indicator success";
+        terminalOutput.textContent += "\n-------------------------------------\n✨ [Código executado com sucesso!]";
+      }, function(err) {
+        runStatus.textContent = "Erro";
+        runStatus.className = "status-indicator error";
+        terminalOutput.textContent += "\n-------------------------------------\n❌ [Erro no seu código Python]:\n" + err.toString();
+      });
+    }
+
+    btnRun.addEventListener('click', runPython);
+
+    btnClear.addEventListener('click', () => {
+      codeEditor.value = "";
+      updateLines();
+      terminalOutput.textContent = "Editor limpo. Digite um código e clique em Executar.";
+      runStatus.textContent = "Pronto";
+      runStatus.className = "status-indicator";
+      codeEditor.focus();
+    });
+
+    exampleSelect.addEventListener('change', (e) => {
+      const val = e.target.value;
+      if (examples[val]) {
+        codeEditor.value = examples[val];
+        updateLines();
+        runPython();
+      }
+    });
+
+    // Iniciar contagem de linhas
+    updateLines();
+  </script>
+</body>
+</html>
