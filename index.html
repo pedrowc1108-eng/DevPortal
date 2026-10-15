@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DevPortal - Seu Hub de Pesquisa e Código</title>
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Efeitos luminosos de fundo (Puro CSS) -->
+  <div class="glow glow-1"></div>
+  <div class="glow glow-2"></div>
+
+  <div class="page-container">
+    <!-- Cabeçalho com Links e Botões de Ação -->
+    <header class="top-bar">
+      <a href="index.html" class="brand-link" title="DevPortal - Página Inicial">
+        <img src="logo.svg" alt="Logo DevPortal" class="brand-logo-img">
+        <div class="brand-widget">
+          <span class="brand-title">DevPortal</span>
+        </div>
+      </a>
+
+      <div class="nav-actions">
+        <!-- Link para Cursos de Python -->
+        <a href="cursos.html" class="action-btn courses-btn" title="Ver Cursos Recomendados de Python">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+          </svg>
+          <span>Cursos Python</span>
+        </a>
+
+        <!-- Link para o Laboratório de Testes -->
+        <a href="laboratorio.html" class="action-btn lab-btn" title="Abrir Laboratório de Testes">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M10 2v7.31L4.62 18.25A2 2 0 0 0 6.32 21h11.36a2 2 0 0 0 1.7-2.75L14 9.31V2"></path>
+            <path d="M8.5 2h7"></path>
+            <path d="M14 9.3h-4"></path>
+          </svg>
+          <span>Laboratório de Testes</span>
+        </a>
+      </div>
+    </header>
+
+    <!-- Conteúdo Central -->
+    <main class="main-content">
+      <!-- Logo Central e Título do Site -->
+      <section class="hero-brand">
+        <div class="hero-logo-wrapper">
+        </div>
+        <h1 class="hero-title"><span class="txt-dev">DEV</span><span class="txt-portal">PORTAL</span></h1>
+        <p class="subtitle">O que vamos pesquisar ou programar hoje?</p>
+      </section>
+
+      <!-- Barra de Busca (Funciona nativamente via HTML com Google) -->
+      <form class="custom-search-form" action="https://www.google.com/search" method="GET">
+        <div class="search-wrapper">
+          <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input 
+            type="text" 
+            name="q" 
+            placeholder="Pesquisar no Google..." 
+            autocomplete="off" 
+            autofocus
+            required
+          >
+          <button type="submit" class="submit-btn" title="Pesquisar">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </button>
+        </div>
+      </form>
+
+      <!-- Grade de Atalhos Rápidos -->
+      <section class="shortcuts-section">
+        <div class="shortcuts-grid">
+          <!-- YouTube -->
+          <a href="https://www.youtube.com" target="_blank" rel="noreferrer" class="shortcut-card">
+            <div class="card-icon yt">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+              </svg>
+            </div>
+            <span class="card-title">YouTube</span>
+          </a>
+
+          <!-- GitHub -->
+          <a href="https://github.com" target="_blank" rel="noreferrer" class="shortcut-card">
+            <div class="card-icon gh">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
+              </svg>
+            </div>
+            <span class="card-title">GitHub</span>
+          </a>
+
+          <!-- ChatGPT (Logo Real) -->
+          <a href="https://chatgpt.com" target="_blank" rel="noreferrer" class="shortcut-card">
+            <div class="card-icon chatgpt">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M22.2819 9.8211a5.9847 5.9847 0 0 0-.5157-4.9108 6.0462 6.0462 0 0 0-6.5098-2.9A6.0651 6.0651 0 0 0 4.9807 4.1818a5.9847 5.9847 0 0 0-3.9977 2.9 6.0462 6.0462 0 0 0 .7427 7.0966 5.98 5.98 0 0 0 .511 4.9107 6.051 6.051 0 0 0 6.5146 2.9001A5.9847 5.9847 0 0 0 13.2599 24a6.0557 6.0557 0 0 0 5.7718-4.2058 5.9894 5.9894 0 0 0 3.9977-2.9001 6.0557 6.0557 0 0 0-.7475-7.0729zm-9.022 12.6081a4.4755 4.4755 0 0 1-2.8764-1.0408l.1419-.0804 4.7783-2.7582a.7948.7948 0 0 0 .3927-.6813v-6.7369l2.02 1.1686a.071.071 0 0 1 .038.052v5.5826a4.504 4.504 0 0 1-4.4945 4.4944zm-9.6607-4.1254a4.4708 4.4708 0 0 1-.5346-3.0137l.142.0852 4.783 2.7582a.7712.7712 0 0 0 .7806 0l5.8428-3.3685v2.3324a.0804.0804 0 0 1-.0332.0615L9.74 19.9502a4.4992 4.4992 0 0 1-6.1408-1.6464zM2.3408 7.8956a4.485 4.485 0 0 1 2.3655-1.9728V11.6a.7664.7664 0 0 0 .3879.6765l5.8144 3.3543-2.0201 1.1685a.0757.0757 0 0 1-.071 0l-4.8303-2.7865A4.504 4.504 0 0 1 2.3408 7.872zm16.5963 3.8558L13.1038 8.364 15.1192 7.2a.0757.0757 0 0 1 .071 0l4.8303 2.7913a4.4944 4.4944 0 0 1-.6765 8.1042v-5.6772a.79.79 0 0 0-.407-.6667zm2.0107-3.0231l-.142-.0852-4.7735-2.7818a.7759.7759 0 0 0-.7854 0L9.409 9.2297V6.8974a.0662.0662 0 0 1 .0284-.0615l4.8303-2.7866a4.4992 4.4992 0 0 1 6.6802 4.66zM8.3065 12.863l-2.02-1.1638a.0804.0804 0 0 1-.038-.0567V6.0742a4.4992 4.4992 0 0 1 7.3757-3.4537l-.142.0805L8.704 5.459a.7948.7948 0 0 0-.3927.6813zm1.0976-2.3654l2.602-1.4998 2.6069 1.4998v2.9994l-2.6069 1.4997-2.602-1.4997z"/>
+              </svg>
+            </div>
+            <span class="card-title">ChatGPT</span>
+          </a>
+
+          <!-- Docs Python -->
+          <a href="https://docs.python.org/pt-br/3/" target="_blank" rel="noreferrer" class="shortcut-card">
+            <div class="card-icon py">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M11.914 0C5.82 0 6.2 2.656 6.2 2.656l.006 2.753h5.815v.827H3.94S0 5.762 0 11.879c0 6.115 3.44 5.925 3.44 5.925h2.054v-2.883s-.11-3.44 3.39-3.44h5.807s3.28.053 3.28-3.188V2.656S18.497 0 11.914 0zM8.7 1.838a1.018 1.018 0 1 1 0 2.036 1.018 1.018 0 0 1 0-2.036zm3.386 22.162c6.094 0 5.714-2.656 5.714-2.656l-.006-2.753H11.98v-.827h8.08s3.94.474 3.94-5.643c0-6.115-3.44-5.925-3.44-5.925h-2.054v2.883s.11 3.44-3.39 3.44H9.35s-3.28-.053-3.28 3.188v5.672S5.503 24 12.086 24zm3.214-1.838a1.018 1.018 0 1 1 0-2.036 1.018 1.018 0 0 1 0 2.036z"/>
+              </svg>
+            </div>
+            <span class="card-title"> Python</span>
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <!-- Rodapé -->
+    <footer class="bottom-bar">
+      <span>Projeto Criado com HTML5 & CSS 3</span>&copy; 2026 - Portal Dev todos os direitos reservados.
+      <div class="footer-links">
+        <a href="https://mail.google.com" target="_blank" rel="noreferrer">Gmail</a>
+        <a href="https://drive.google.com" target="_blank" rel="noreferrer">Drive</a>
+        <a href="https://calendar.google.com" target="_blank" rel="noreferrer">Agenda</a>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>

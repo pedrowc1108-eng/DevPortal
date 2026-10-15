@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cursos de Python Recomendados - DevPortal</title>
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .courses-page-container {
+      width: 100%;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+
+    .courses-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .brand-title-group {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .courses-logo-img {
+      width: 44px;
+      height: 44px;
+      filter: drop-shadow(0 0 10px rgba(56, 189, 248, 0.45));
+    }
+
+    .page-title {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .page-tag {
+      font-size: 0.78rem;
+      color: var(--accent-cyan);
+      text-transform: uppercase;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    .courses-grid-view {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div class="glow glow-1"></div>
+  <div class="glow glow-2"></div>
+
+  <div class="courses-page-container">
+    <header class="courses-header">
+      <div class="brand-title-group">
+        <a href="index.html" title="Voltar ao início">
+          <img src="logo.svg" alt="DevPortal Logo" class="courses-logo-img">
+        </a>
+        <div>
+          <span class="page-tag">Curadoria Educacional</span>
+          <h1 class="page-title">Top Cursos de Python 🐍</h1>
+        </div>
+      </div>
+
+      <a href="index.html" class="action-btn courses-btn" title="Voltar para a página inicial">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+        <span>Voltar ao Início</span>
+      </a>
+    </header>
+
+    <main class="courses-grid-view">
+      <!-- Curso 1 -->
+      <a href="https://www.youtube.com/playlist?list=PLHz_AreHm4dlKP6QQCekuIPky1CiwmdI6" target="_blank" rel="noreferrer" class="course-item">
+        <div class="course-badge free">100% Gratuito</div>
+        <div class="course-info">
+          <h3>Curso em Vídeo (Prof. Gustavo Guanabara)</h3>
+          <p>O melhor curso em português para iniciantes absolutos. Mais de 100 exercícios práticos graduais, didática impecável e suporte incrível da comunidade brasileira.</p>
+          <div class="course-meta">
+            <span>⭐ O mais recomendado no Brasil</span>
+            <span>🇧🇷 Português</span>
+          </div>
+        </div>
+        <div class="course-arrow">↗</div>
+      </a>
+
+      <!-- Curso 2 -->
+      <a href="https://cs50.harvard.edu/python/" target="_blank" rel="noreferrer" class="course-item">
+        <div class="course-badge harvard">Harvard University</div>
+        <div class="course-info">
+          <h3>CS50’s Introduction to Programming with Python</h3>
+          <p>Curso mundialmente famoso do Prof. David J. Malan. Ensina lógica profunda, funções, tratamento de exceções, testes de software e orientação a objetos com excelência.</p>
+          <div class="course-meta">
+            <span>🎓 Certificado opcional</span>
+            <span>🇺🇸 Inglês (com legendas)</span>
+          </div>
+        </div>
+        <div class="course-arrow">↗</div>
+      </a>
+
+      <!-- Curso 3 -->
+      <a href="https://www.youtube.com/watch?v=nO3_vN-z4kY" target="_blank" rel="noreferrer" class="course-item">
+        <div class="course-badge free">Gratuito</div>
+        <div class="course-info">
+          <h3>FreeCodeCamp Brasil - Python para Iniciantes</h3>
+          <p>Vídeo-curso intensivo e direto ao ponto cobrindo tipos de dados, estruturas de controle, manipulação de arquivos e desenvolvimento de mini-projetos práticos.</p>
+          <div class="course-meta">
+            <span>⏱️ Aulas Diretas</span>
+            <span>🇧🇷 Português</span>
+          </div>
+        </div>
+        <div class="course-arrow">↗</div>
+      </a>
+
+      <!-- Curso 4 -->
+      <a href="https://docs.python.org/pt-br/3/tutorial/" target="_blank" rel="noreferrer" class="course-item">
+        <div class="course-badge official">Oficial</div>
+        <div class="course-info">
+          <h3>Tutorial Oficial do Python (PT-BR)</h3>
+          <p>O manual e tutorial oficial desenvolvido pela própria fundação Python. A fonte mais confiável para tirar dúvidas sobre sintaxe, módulos nativos e melhores práticas da comunidade.</p>
+          <div class="course-meta">
+            <span>📖 Documentação Completa</span>
+            <span>🇧🇷 Português</span>
+          </div>
+        </div>
+        <div class="course-arrow">↗</div>
+      </a>
+    </main>
+  </div>
+</body>
+</html>
+
